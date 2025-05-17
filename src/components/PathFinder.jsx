@@ -130,10 +130,10 @@ const PathFinder = () => {
         } else if (x === endX && y === endY) {
             setEndX(null);
             setEndY(null);
-        } else if (!startX && !startY) {
+        } else if (startX == null && startY == null)  {
             setStartX(x);
             setStartY(y);
-        } else if (!endX && !endY) {
+        } else if (endX == null && endY == null) {
             setEndX(x);
             setEndY(y);
         }
