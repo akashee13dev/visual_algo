@@ -123,7 +123,8 @@ const PathFinder = () => {
             case "bfs":
                 let bfsVisitedNodes = bfs(grid, grid[startX][startY], grid[endX][endY]);
                 let bfsshortestPathNodes = getShortestPath(grid[endX][endY]);
-                console.log("shortestPathNodes", bfsshortestPathNodes)endTime = performance.now();
+                //console.log("shortestPathNodes", bfsshortestPathNodes);
+                endTime = performance.now();
                 algorithmTime = endTime - startTime;
                 notifyPathFound();
                 setTotalTime(algorithmTime);
