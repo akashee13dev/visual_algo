@@ -6,15 +6,15 @@ export function dijkstra(grid, startNode, endNode) {
     while (unVisitedNodes.length > 0) {
         unVisitedNodes.sort((nodeA, nodeB) => nodeA.distance - nodeB.distance);
         const closestNode = unVisitedNodes.shift();
-        if (closestNode.distance === Infinity){
+        if (closestNode.distance === Infinity) {
             return visitedNodesInOrder;
-        } 
-        if (closestNode.visit){
+        }
+        if (closestNode.visit) {
             continue;
         }
         closestNode.visit = true;
-        console.log("Visited X :"+closestNode.row +" Y :"+closestNode.col);
-        console.log("Distance "+closestNode.distance );
+        console.log("Visited X :" + closestNode.row + " Y :" + closestNode.col);
+        console.log("Distance " + closestNode.distance);
         visitedNode.push(closestNode);
         if (closestNode === endNode) {
             return visitedNode;
@@ -64,7 +64,7 @@ function getAllNodes(grid) {
 export function getShortestPath(endNode) {
     const path = [];
     let current = endNode;
-    console.log(current);
+    console.log("current", current);
     while (current !== null) {
         path.unshift(current);
         current = current.previousNode;

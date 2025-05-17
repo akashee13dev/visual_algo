@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import FlowNode from './FlowNode';
 import {dijkstra, getShortestPath} from '../algorithms/dijkstra';
+import {bfs} from '../algorithms/bfs';
 
 const PathFinder = () => {
 
@@ -65,6 +66,39 @@ const PathFinder = () => {
         setTimeout(() => setShowError(false), 2000);
     };
 
+    const animatePath = async(visitedNodesInOrder, shortestPathNodes) => {
+        for (let i = 0; i < visitedNodesInOrder.length; i++) {
+            setVisitCount(i + 1);
+            const node = visitedNodesInOrder[i];
+            setDistance(prevMax => Math.max(prevMax, node.distance));
+
+            await sleep(1);
+            setGrid(prevGrid => prevGrid.map(row => row.map(n => {
+                if (n.row === node.row && n.col === node.col && !n.isStart && !n.isEnd && !n.visited) {
+                    return {
+                        ...n,
+                        visited: true
+                    };
+                }
+                return n;
+            })));
+        }
+
+        for (let i = 0; i < shortestPathNodes.length; i++) {
+            const node = shortestPathNodes[i];
+            await sleep(1);
+            setGrid(prevGrid => prevGrid.map(row => row.map(n => {
+                if (n.row === node.row && n.col === node.col && !n.isStart && !n.isEnd) {
+                    return {
+                        ...n,
+                        isPath: true
+                    };
+                }
+                return n;
+            })));
+        }
+    }
+
     const calculatePath = async(name) => {
         if (startX == null || startY == null || endX == null || endY == null) {
             openError();
@@ -73,48 +107,29 @@ const PathFinder = () => {
         setShowError(false);
         const startTime = performance.now();
         let algorithmTime = 0;
+        let endTime = 0;
         switch (name) {
             case "dijkstra":
-                const visitedNodesInOrder = dijkstra(grid, grid[startX][startY], grid[endX][endY]);
-                const shortestPathNodes = getShortestPath(grid[endX][endY]);
-                const endTime = performance.now();
+                let visitedNodesInOrder = dijkstra(grid, grid[startX][startY], grid[endX][endY]);
+                let shortestPathNodes = getShortestPath(grid[endX][endY]);
+                endTime = performance.now();
                 algorithmTime = endTime - startTime;
                 notifyPathFound();
                 setTotalTime(algorithmTime);
-
-                for (let i = 0; i < visitedNodesInOrder.length; i++) {
-                    setVisitCount(i + 1);
-                    const node = visitedNodesInOrder[i];
-                    setDistance(prevMax => Math.max(prevMax, node.distance));
-
-                    await sleep(1);
-                    setGrid(prevGrid => prevGrid.map(row => row.map(n => {
-                        if (n.row === node.row && n.col === node.col && !n.isStart && !n.isEnd && !n.visited) {
-                            return {
-                                ...n,
-                                visited: true
-                            };
-                        }
-                        return n;
-                    })));
-                }
-
-                for (let i = 0; i < shortestPathNodes.length; i++) {
-                    const node = shortestPathNodes[i];
-                    await sleep(1);
-                    setGrid(prevGrid => prevGrid.map(row => row.map(n => {
-                        if (n.row === node.row && n.col === node.col && !n.isStart && !n.isEnd) {
-                            return {
-                                ...n,
-                                isPath: true
-                            };
-                        }
-                        return n;
-                    })));
-                }
+                animatePath(visitedNodesInOrder, shortestPathNodes);
                 setReset(true);
                 break;
 
+            case "bfs":
+                let bfsVisitedNodes = bfs(grid, grid[startX][startY], grid[endX][endY]);
+                let bfsshortestPathNodes = getShortestPath(grid[endX][endY]);
+                console.log("shortestPathNodes", bfsshortestPathNodes)endTime = performance.now();
+                algorithmTime = endTime - startTime;
+                notifyPathFound();
+                setTotalTime(algorithmTime);
+                animatePath(bfsVisitedNodes, bfsshortestPathNodes);
+                setReset(true);
+                break;
             default:
                 alert("Under Construction Please choose other Algorithms");
         }
@@ -130,7 +145,7 @@ const PathFinder = () => {
         } else if (x === endX && y === endY) {
             setEndX(null);
             setEndY(null);
-        } else if (startX == null && startY == null)  {
+        } else if (startX == null && startY == null) {
             setStartX(x);
             setStartY(y);
         } else if (endX == null && endY == null) {

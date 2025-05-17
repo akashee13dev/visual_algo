@@ -11,7 +11,7 @@ This is my first project that I am truly proud to showcase. My plan is to contin
 ## Features so far
 
 - Grid-based pathfinding visualization
-- Support for algorithms like Dijkstra
+- Support for algorithms like Dijkstra , BFS
 - Interactive start and end node selection
 - Real-time animation of algorithm progress
 - Clean, modern UI inspired by Google’s design principles
@@ -20,7 +20,7 @@ This is my first project that I am truly proud to showcase. My plan is to contin
 
 ## Future Plans
 
-- Add more algorithms: A*, BFS, DFS, and others
+- Add more algorithms: A*, DFS, and others
 - Improve UI/UX with better animations and responsiveness
 - Add explanation and stats for each algorithm run
 
