@@ -35,6 +35,11 @@ This is my first project that I am truly proud to showcase. My plan is to contin
 
 ---
 
+[AlgoVisualizer.webm](https://github.com/user-attachments/assets/c6652c67-5c36-4f73-9d6b-bb19442ca3e0)
+
+<img width="1473" alt="Screenshot 2025-05-17 at 6 17 50 PM" src="https://github.com/user-attachments/assets/f4e540a3-dec3-4a97-84a0-bd3fa61cde6b" />
+
+
 Feel free to contribute or raise issues!
 
 ---
